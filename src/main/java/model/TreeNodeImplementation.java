@@ -43,6 +43,12 @@ public abstract class TreeNodeImplementation<T> extends TreeNode<T> {
     }
 
     /**
+     * Creates an instance of empty tree node
+     *
+     */
+    public TreeNodeImplementation() {super();}
+
+    /**
      * Adds the collection of the subtrees with all of theirs descendants
      * to the current tree node
      * <p>

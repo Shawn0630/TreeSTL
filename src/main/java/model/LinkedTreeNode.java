@@ -62,6 +62,10 @@ public class LinkedTreeNode<T> extends TreeNodeImplementation<T> {
         super(data);
     }
 
+    public LinkedTreeNode() {
+        super();
+    }
+
     /**
      * Returns the collection of the child nodes of the current node
      * with all of its proper descendants, if any
