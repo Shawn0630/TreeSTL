@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 /**
  * This interface represents the basic tree data structure
@@ -224,6 +225,22 @@ public abstract class TreeNode<T> implements Iterable<TreeNode<T>>, Serializable
 	public TreeNode<T> parent() {
 		return parent;
 	}
+
+    /**
+     * Returns the collection of leaves of under the current node, if any
+     * <p>
+     * Returns {@link Collections#emptySet()} if the current node is leaf
+     *
+     * @return collection of the leaves under the current node, if any;
+     *         {@link Collections#emptySet()} if the current node is leaf
+     */
+	public Collection<TreeNode<T>> leaves() {
+        if (isLeaf()) {
+            return Collections.emptySet();
+        }
+
+        return this.preOrdered().stream().filter(TreeNode::isLeaf).collect(Collectors.toList());
+    }
 
 	/**
 	 * Checks whether the current tree node is a leaf, e.g. does not have any

@@ -77,7 +77,7 @@ public class PennTreeBankReader implements Closeable {
      * @return a ptb tree, or null if the end of the stream has been reached.
      * @throws IOException
      */
-    public TreeNode readPtbTree()
+    public TreeNode<String> readPtbTree()
             throws IOException {
 
         TreeNode<String> root = new LinkedTreeNode<>("ROOT");
