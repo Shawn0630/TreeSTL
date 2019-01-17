@@ -9,6 +9,13 @@ public class BinaryTreeNode<T> extends LinkedTreeNode<T> {
 
     /**
      * Creates an instance of this class
+     */
+    public BinaryTreeNode() {
+        super();
+    }
+
+    /**
+     * Creates an instance of this class
      *
      * @param data data to store in the current tree node
      */

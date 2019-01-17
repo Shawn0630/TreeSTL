@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import model.TreeNode;
-import model.TreeNodeException;
-import model.TreeNodeImplementation;
+package model;
+
 import org.junit.Test;
 
 import java.util.*;

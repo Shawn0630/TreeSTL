@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
+package model;
 
-import model.TraversalAction;
-import model.TreeNode;
-import model.TreeNodeException;
 import org.junit.Before;
 import org.junit.Test;
 

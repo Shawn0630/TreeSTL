@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import model.ArrayTreeNode;
-import model.TreeNode;
+package model;
+
 import org.junit.Test;
 
 /**
