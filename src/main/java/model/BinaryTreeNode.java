@@ -104,9 +104,46 @@ public class BinaryTreeNode<T> extends TreeNode<T> {
         }
     }
 
+    /**
+     * Returns an iterator over the elements in this tree in proper sequence
+     * <p>
+     * The returned iterator is <b>fail-fast</b>
+     *
+     * @return an iterator over the elements in this tree in proper sequence
+     */
     @Override
     public TreeNodeIterator iterator() {
-        return null;
+        return new TreeNodeIterator() {
+
+            /**
+             * Returns the leftmost node of the current tree node if the
+             * current tree node is not a leaf
+             *
+             * @return leftmost node of the current tree node if the current
+             *         tree node is not a leaf
+             * @throws TreeNodeException an exception that is thrown in case
+             *                           if the current tree node is a leaf
+             */
+            @Override
+            protected TreeNode<T> leftMostNode() {
+                return leftNode;
+            }
+
+            /**
+             * Returns the right sibling node of the current tree node if the
+             * current tree node is not root
+             *
+             * @return right sibling node of the current tree node if the current
+             *         tree node is not root
+             * @throws TreeNodeException an exception that may be thrown in case if
+             *                           the current tree node is root
+             */
+            @Override
+            protected TreeNode<T> rightSiblingNode() {
+                return rightNode;
+            }
+
+        };
     }
 
     /**
