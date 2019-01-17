@@ -2,16 +2,46 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
-public class BinaryTreeNode<T> extends LinkedTreeNode<T> {
+public class BinaryTreeNode<T> extends TreeNode<T> {
+
+    /**
+     * Current UID of this object used for serialization
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * A reference to the first subtree tree node of the current tree node
+     */
+    protected BinaryTreeNode<T> leftNode;
+
+    /**
+     * A reference to the right sibling tree node of the current tree node
+     */
+    protected BinaryTreeNode<T> rightNode;
 
     /**
      * Creates an instance of this class
      */
     public BinaryTreeNode() {
         super();
+    }
+
+    @Override
+    public Collection<TreeNode<T>> subtrees() {
+        Collection<TreeNode<T>> subtrees = new LinkedHashSet<>();
+        if (leftNode != null) {
+            subtrees.add(leftNode);
+        }
+        if (rightNode != null) {
+            subtrees.add(rightNode);
+        }
+
+        return subtrees;
     }
 
     /**
@@ -25,10 +55,87 @@ public class BinaryTreeNode<T> extends LinkedTreeNode<T> {
 
     @Override
     public boolean add(TreeNode<T> subtree) throws TreeNodeException {
-       if (leftMostNode != null && rightSiblingNode != null) {
-           throw new TreeNodeException("Binary tree node not allow more than two descendants");
+       if (leftNode != null && rightNode != null) {
+           return leftNode.add(subtree);
        }
-       return super.add(subtree);
+       linkParent(subtree, this);
+       if (leftNode == null) {
+           leftNode = (BinaryTreeNode<T>) subtree;
+           return true;
+       }
+
+       rightNode = (BinaryTreeNode<T>) subtree;
+       return true;
+    }
+
+    @Override
+    public boolean dropSubtree(TreeNode<T> subtree) {
+        if (subtree == null
+            || isLeaf()
+            || subtree.isRoot()) {
+            return false;
+        }
+        if (leftNode != null && leftNode.equals(subtree)) {
+            unlinkParent(subtree);
+            leftNode = null;
+            return true;
+        }
+
+        if (rightNode != null && rightNode.equals(subtree)) {
+            unlinkParent(subtree);
+            rightNode = null;
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void clear() {
+        if (!isLeaf()) {
+           if (leftNode != null) {
+                unlinkParent(leftNode);
+               leftNode = null;
+            }
+            if (rightNode != null) {
+               unlinkParent(rightNode);
+               rightNode = null;
+            }
+        }
+    }
+
+    @Override
+    public TreeNodeIterator iterator() {
+        return null;
+    }
+
+    /**
+     * Returns the in ordered collection of nodes of the current tree
+     * starting from the current tree node
+     *
+     * @return in ordered collection of nodes of the current tree starting
+     *         from the current tree node
+     */
+    public Collection<TreeNode<T>> inOrdered() {
+        if (isLeaf()) {
+            return Collections.singleton(this);
+        }
+        final Collection<TreeNode<T>> mInOrdered = new ArrayList<>();
+        TraversalAction<TreeNode<T>> action = populateAction(mInOrdered);
+        traverseInOrder(action);
+        return mInOrdered;
+    }
+
+    public void traverseInOrder(TraversalAction<TreeNode<T>> action) {
+        if (!action.isCompleted()) {
+            if (leftNode != null) {
+                leftNode.traverseInOrder(action);
+            }
+            action.perform(this);
+            if (rightNode != null) {
+               rightNode.traverseInOrder(action);
+            }
+        }
     }
 
     public static class BinaryTreeNodeBuilder<T> {

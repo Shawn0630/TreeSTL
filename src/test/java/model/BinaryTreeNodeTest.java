@@ -18,7 +18,7 @@ public class BinaryTreeNodeTest {
     @Test
     public void testBinaryTreeNodeBuilder() {
         String messageContainNotExpected =
-                "The binary tree was not expected to the tree builder";
+                "The binary tree was not expected to the tree from builder";
         List<String> inorder = Arrays.asList("D", "B", "E", "A", "F", "C");
         List<String> preorder = Arrays.asList("A", "B", "D", "E", "C", "F");
         List<String> postorder = Arrays.asList("D", "E", "B", "F", "C", "A");
@@ -27,10 +27,12 @@ public class BinaryTreeNodeTest {
         BinaryTreeNode<String> root_via_preorder = builder.setInorder(inorder).setPreorder(preorder).build();
         assertEquals(messageContainNotExpected, preorder, root_via_preorder.preOrdered().stream().map(TreeNode::data).collect(Collectors.toList()));
         assertEquals(messageContainNotExpected, postorder, root_via_preorder.postOrdered().stream().map(TreeNode::data).collect(Collectors.toList()));
+        assertEquals(messageContainNotExpected, inorder, root_via_preorder.inOrdered().stream().map(TreeNode::data).collect(Collectors.toList()));
 
         BinaryTreeNode<String> root_via_postorder = builder.setInorder(inorder).setPostorder(postorder).build();
         assertEquals(messageContainNotExpected, preorder, root_via_postorder.preOrdered().stream().map(TreeNode::data).collect(Collectors.toList()));
         assertEquals(messageContainNotExpected, postorder, root_via_postorder.postOrdered().stream().map(TreeNode::data).collect(Collectors.toList()));
+        assertEquals(messageContainNotExpected, inorder, root_via_postorder.inOrdered().stream().map(TreeNode::data).collect(Collectors.toList()));
     }
 
 }
