@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
  * @version 1.0.0
  * @since 1.0.0
  */
-public abstract class TreeNodeTest {
+public abstract class TreeNodeTest extends TreeTest{
 
     /*
      * Test tree structure
