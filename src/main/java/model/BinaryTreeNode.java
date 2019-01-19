@@ -3,8 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 public class BinaryTreeNode<T> extends TreeNode<T> {
@@ -24,11 +26,14 @@ public class BinaryTreeNode<T> extends TreeNode<T> {
      */
     protected BinaryTreeNode<T> rightNode;
 
+    private Deque<BinaryTreeNode<T>> deque = new LinkedList<>();
+
     /**
      * Creates an instance of this class
      */
     public BinaryTreeNode() {
         super();
+        deque.addLast(this);
     }
 
     @Override
@@ -51,21 +56,41 @@ public class BinaryTreeNode<T> extends TreeNode<T> {
      */
     public BinaryTreeNode(T data) {
         super(data);
+        deque.addLast(this);
     }
 
+    /**
+     * Insert tree node in level order
+     * <p>
+     * {@code null} subtree cannot be added, in this case return result will
+     * be {@code false}
+     * <p>
+     * Checks whether this tree node was changed as a result of the call
+     *
+     * @param subtree subtree to add to the current tree node
+     * @return {@code true} if this tree node was changed as a
+     *         result of the call; {@code false} otherwise
+     */
     @Override
     public boolean add(TreeNode<T> subtree) throws TreeNodeException {
-       if (leftNode != null && rightNode != null) {
-           return leftNode.add(subtree);
-       }
-       linkParent(subtree, this);
-       if (leftNode == null) {
-           leftNode = (BinaryTreeNode<T>) subtree;
-           return true;
+       if(!deque.isEmpty()) {
+           BinaryTreeNode<T> node = deque.peekFirst();
+           deque.pollFirst();
+           if (node.leftNode == null) {
+               node.leftNode = (BinaryTreeNode<T>) subtree;
+               linkParent(subtree, node);
+               deque.addFirst(node);
+               deque.addLast(node.leftNode);
+               return true;
+           } else {
+               node.rightNode = (BinaryTreeNode<T>) subtree;
+               linkParent(subtree, node);
+               deque.addLast(node.rightNode);
+               return true;
+           }
        }
 
-       rightNode = (BinaryTreeNode<T>) subtree;
-       return true;
+       return false;
     }
 
     @Override
