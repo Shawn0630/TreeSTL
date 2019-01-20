@@ -332,7 +332,12 @@ public class BinaryTreeNodeTest extends TreeTest{
 
     @Override
     public void testLevel() {
-
+        // Test the specified tree node level is correctly calculated
+        String message = "Tree node level was incorrectly calculated";
+        assertSame(message, 0, root.level());
+        assertSame(message, 1, node1.level());
+        assertSame(message, 1, node2.level());
+        assertSame(message, 2, node3.level());
     }
 
     @Override
